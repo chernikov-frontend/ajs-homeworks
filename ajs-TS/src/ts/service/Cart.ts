@@ -12,26 +12,15 @@ export default class Cart {
     }
 
     sum(): number {
-        let total: number = 0;
-        for (let i = 0; i < this._items.length; i++) {
-            total += this._items[i].price;
-        }
-        return total;
+        return this._items.reduce((total, item) => total + item.price, 0);
     }
 
     sumWithDiscount(discount: number): number {
-        let total: number = 0;
-        let totalDiscount: number = 0;
-        for (let i = 0; i < this._items.length; i++) {
-            total += this._items[i].price;
-            totalDiscount = total - total / discount;
-        }
-        return totalDiscount;
+        const totalPrice = this.sum();
+        return totalPrice - (totalPrice * discount / 100);
     }
 
     deleteItem(id: number): void {
-        let index: number = 0;
-        index = this._items.findIndex(item => item.id === id);
-        this._items.splice(index, 1);
+        this._items = this._items.filter(item => item.id !== id);
     }
 }
